@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Frontend</h1>
+    
+    <div id="data-container">
+        <!-- Data from backend will be displayed here -->
+    </div>
+
+    <label for="product-id">Select Product ID:</label>
+    <select id="product-id">
+        <option value="all">All Items</option>
+        <option value="1">Product 1</option>
+        <option value="2">Product 2</option>
+        <option value="3">Product 3</option>
+        <option value="4">Product 4</option>
+        <option value="5">Product 5</option>
+        <option value="6">Product 6</option>
+    </select>
+
+    <button id="fetch-data-btn">Fetch Data</button>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,12 +1,3 @@
-<?php 
-// error_reporting(-1);
-// ini_set('display_errors', 'On');
-session_start(); 
-if(!isset($_SESSION['admin_id'])) // check admin or not
-{
-  session_destroy();
-  header("location:../Logout.php");    
-}?>
 <!DOCTYPE html>
 <html>
 <head>

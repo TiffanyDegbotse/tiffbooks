@@ -68,10 +68,11 @@
               <th>Book Name</th>
               <th>Author</th>
               <th>Genre</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="product-list">
+          <tbody id="book-list">
             <?php
             if (isset($_GET['search'])) {
               include '../actions/search_action.php';
@@ -87,7 +88,7 @@
         <div class="modal-content">
           <span class="close">&times;</span>
           <h2>Add a New Product</h2>
-          <form action="../actions/add_management_action.php" method="post" id="product-form">
+          <form action="../actions/add_management_action.php" method="POST" id="product-form">
             <label for="book-name">Book Name:</label>
             <input type="text" name="book-name" id="book-name" placeholder="Enter the name of the book" required />
             <label for="author">Author:</label>
@@ -104,53 +105,42 @@
     </section>
   </div>
   <!-- Hidden modal for editing -->
-  <div class="modal" id="edit-modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close eclose">&times;</span>
-      <h2>Edit Product</h2>
-      <form action="../actions/edit_a_product.php" method="post">
-        <input type="hidden" id="edit-product-id" name="product_id" />
-        <label for="edit-product-name">Product Name:</label>
-        <input type="text" id="edit-product-name" name="product_name" required />
-        <label for="edit-sku">SKU:</label>
-        <input type="text" id="edit-sku" name="sku" required />
-        <label for="edit-category">Category:</label>
-        <select class="add-inventory-btn" name="category" id="edit-category" required>
-          <option selected id="selected"></option>
-          <?php
-          include "../functions/select_category_fxn.php";
-          echo $options;
-          ?>
-        </select>
-        <label for="edit-quantity">Quantity in Stock:</label>
-        <input type="number" id="edit-quantity" name="quantity_in_stock" required />
-        <label for="edit-location">Location in Shop:</label>
-        <input type="text" id="edit-location" name="location_in_shop" required />
-        <label for="edit-description">Product Description:</label>
-        <input type="text" id="edit-description" name="product_description" />
-        <button class="add-inventory-btn" type="submit">Save Changes</button>
-      </form>
-    </div>
+<div class="modal" id="edit-modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close eclose">&times;</span>
+    <h2>Edit Product</h2>
+    <form action="../actions/edit_book_status.php" method="post">
+      <input type="hidden" id="edit-isbn" name="isbn" />
+      <label for="edit-book-name">Book Name:</label>
+      <input type="text" id="edit-book-name" name="book_name" required />
+      <label for="edit-author">Author:</label>
+      <input type="text" id="edit-author" name="author" required />
+      <label for="edit-genre">Genre:</label>
+      <input type="text" id="edit-genre" name="genre" required />
+      <label for="edit-status">Status:</label>
+      <select id="edit-status" name="status" required>
+        <option value="completed">Completed</option>
+        <option value="in progress">In Progress</option>
+      </select>
+      <button class="add-inventory-btn" type="submit">Save Changes</button>
+    </form>
   </div>
-  <script>
-    function editProduct(id, name, sku, category, quantity, location, description) {
-      var option = document.getElementById('selected');
-      document.getElementById('edit-product-id').value = id;
-      document.getElementById('edit-product-name').value = name;
-      document.getElementById('edit-sku').value = sku;
-      option.value = category;
-      option.innerText = category;
-      document.getElementById('edit-category').appendChild(option)
-      document.getElementById('edit-quantity').value = quantity;
-      document.getElementById('edit-location').value = location;
-      document.getElementById('edit-description').value = description;
-      document.getElementById('edit-modal').style.display = 'block';
-    }
+</div>
 
-    document.querySelector('.modal .eclose').addEventListener('click', function() {
-      document.getElementById('edit-modal').style.display = 'none';
-    });
-  </script>
+<script>
+  function editProduct(id, name, author, genre) {
+    document.getElementById('edit-isbn').value = id;
+    document.getElementById('edit-book-name').value = name;
+    document.getElementById('edit-author').value = author;
+    document.getElementById('edit-genre').value = genre;
+    document.getElementById('edit-modal').style.display = 'block';
+  }
+
+  document.querySelector('.modal .eclose').addEventListener('click', function() {
+    document.getElementById('edit-modal').style.display = 'none';
+  });
+</script>
+
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const addInventorybtn = document.getElementById("add-inventory-btn");
