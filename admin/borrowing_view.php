@@ -1,119 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borrowing View</title>
-    <link href="css/style.css" rel="stylesheet" type="text/css" media="all">
-    <!-- Adjust the path if needed -->
+    <title>Available books</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Slide Login Form template Responsive, Login form web template, Flat Pricing tables, Flat Drop downs Sign up Web Templates, Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+    <!-- Custom Theme files -->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- //Custom Theme files -->
+
+    <!-- web font -->
+    <link href="//fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet">
+    <!-- //web font -->
+
     <style>
-        /* Additional Styles for Borrowing View */
+        /* Additional Styles */
         body {
-            background-image: url('../images/adminhome.jpg');
+            background-color: #f1f1f1;
             font-family: 'Hind', sans-serif;
-            margin: 0;
-            padding: 0;
         }
 
-        header {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            text-align: center;
-            width: 100%;
-            box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
         }
 
-        main {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            align-items: flex-start;
-            padding-top: 80px; /* Height of header */
-            padding-bottom: 20px; /* Adjust as needed */
-        }
-
-        .shelf {
-            background-color: rgba(255, 255, 255, 0.7);
+        .book-container {
+            background-color: #fff;
             border-radius: 5px;
-            padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            padding: 20px;
             margin-bottom: 20px;
         }
 
         .book {
             display: flex;
-            flex-direction: column;
             align-items: center;
+            margin-bottom: 15px;
         }
 
         .book img {
-            max-width: 200px; /* Adjust the max-width of the image */
-            height: auto;
-            margin-bottom: 10px;
+            max-width: 100px;
+            margin-right: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .book-details {
-            text-align: center;
+            flex: 1;
         }
 
-        .book-details h2 {
+        .book-title {
             font-size: 18px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .book-details p {
             margin: 5px 0;
         }
+
+        .view-pdf {
+            margin-top: 10px;
+        }
+
+        .view-pdf a {
+            background-color: #333;
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Borrowing View</h1>
-</header>
+<div class="container">
+    <h1>Available Books</h1>
 
-<main>
-    <!-- Display the uploaded book details -->
+    <!-- Display Books -->
     <?php
-    // Check if the uploaded files exist
-    if (isset($_GET['pdf']) && isset($_GET['image'])) {
-        // Get the file paths
-        $pdfFilePaths = $_GET['pdf'];
-        $imageFilePaths = $_GET['image'];
+    // Include the connection file
+    include '../settings/connection.php';
 
-        // Check if the file paths are arrays
-        if (is_array($pdfFilePaths) && is_array($imageFilePaths)) {
-            // Iterate through the file paths and display each book
-            for ($i = 0; $i < count($pdfFilePaths); $i++) {
-                echo "<div class='shelf'>
-                        <div class='book'>
-                            <img src='" . $imageFilePaths[$i] . "' alt='Book Cover'>
-                        </div>
+    // SQL query to select books with status 1 from bookstatus table
+    $sql = "SELECT b.*, a.authorname, g.genrename FROM books b
+            INNER JOIN author a ON b.authorid = a.authorid
+            INNER JOIN genre g ON b.genreid = g.genreid
+            INNER JOIN bookstatus bs ON b.ISBN = bs.ISBN
+            WHERE bs.bookstatus = 1";
+
+    // Execute the query
+    $result = $conn->query($sql);
+
+    // Check if there are any results
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        while($row = $result->fetch_assoc()) {
+            echo "<div class='book-container'>
+                    <div class='book'>
+                        <img src='" . $row["image_filepath"] . "' alt='Book Cover'>
                         <div class='book-details'>
-                            <h2>Book Title</h2>
-                            <p>Author: John Doe</p>
-                            <p>Genre: Fiction</p>
-                            <p><a href='" . $pdfFilePaths[$i] . "' target='_blank'>Read Book PDF</a></p>
+                            <h2 class='book-title'>" . $row["bookname"]. "</h2>
+                            <p>Author: " . $row["authorname"]. "</p>
+                            <p>Genre: " . $row["genrename"]. "</p>
+                            <div class='view-pdf'>
+                                <a href='" . $row["pdf_filepath"] . "' target='_blank'>View PDF</a>
+                            </div>
                         </div>
-                    </div>";
-            }
-        } else {
-            echo "No book details found.";
+                    </div>
+                  </div>";
         }
     } else {
-        echo "No book details found.";
+        echo "<p>No books with status 1 found</p>";
     }
-    ?>
-</main>
 
-<footer>
-    <!-- Footer content -->
-</footer>
+    // Close the connection
+    $conn->close();
+    ?>
+</div>
 
 </body>
 </html>

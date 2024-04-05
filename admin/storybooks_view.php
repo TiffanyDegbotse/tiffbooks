@@ -19,9 +19,9 @@
             <span class="nav-item"> Hello,
               <?php
               //Getting the user's email from the session
-              include_once '../settings/connection.php';  
+              include_once '../settings/connection.php';
               session_start();
-              $email=$_SESSION['email'];
+              $email = $_SESSION['email'];
               include_once '../functions/display_name_fxn.php';
               echo display_name($email);
               ?>
@@ -88,13 +88,17 @@
         <div class="modal-content">
           <span class="close">&times;</span>
           <h2>Add a New Product</h2>
-          <form action="../actions/add_management_action.php" method="POST" id="product-form">
+          <form action="../actions/add_management_action.php" method="POST" enctype="multipart/form-data">
             <label for="book-name">Book Name:</label>
             <input type="text" name="book-name" id="book-name" placeholder="Enter the name of the book" required />
             <label for="author">Author:</label>
             <input type="text" name="author" id="author" placeholder="Who is the author of the book?" required />
             <label for="genre">Genre:</label>
             <input type="text" name="genre" id="genre" placeholder="What genre is this book?" required>
+            <label for="pdf">Upload PDF:</label>
+            <input type="file" name="pdf" accept=".pdf" required />
+            <label for="image">Upload Image:</label>
+            <input type="file" name="image" accept="image/*" required />
             <button type="submit" name="submit" class="add-inventory-btn" id="add-inventory-btn">
               Add Product
             </button>
@@ -105,44 +109,44 @@
     </section>
   </div>
   <!-- Hidden modal for editing -->
-<div class="modal" id="edit-modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close eclose">&times;</span>
-    <h2>Edit Product</h2>
-    <form action="../actions/edit_book_status.php" method="post">
-      <input type="hidden" id="edit-isbn" name="isbn" />
-      <label for="edit-book-name">Book Name:</label>
-      <input type="text" id="edit-book-name" name="book_name" required />
-      <label for="edit-author">Author:</label>
-      <input type="text" id="edit-author" name="author" required />
-      <label for="edit-genre">Genre:</label>
-      <input type="text" id="edit-genre" name="genre" required />
-      <label for="edit-status">Status:</label>
-      <select id="edit-status" name="status" required>
-        <option value="completed">Completed</option>
-        <option value="in progress">In Progress</option>
-      </select>
-      <button class="add-inventory-btn" type="submit">Save Changes</button>
-    </form>
+  <div class="modal" id="edit-modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close eclose">&times;</span>
+      <h2>Edit Product</h2>
+      <form action="../actions/edit_book_status.php" method="post">
+        <input type="hidden" id="edit-isbn" name="isbn" />
+        <label for="edit-book-name">Book Name:</label>
+        <input type="text" id="edit-book-name" name="book_name" required />
+        <label for="edit-author">Author:</label>
+        <input type="text" id="edit-author" name="author" required />
+        <label for="edit-genre">Genre:</label>
+        <input type="text" id="edit-genre" name="genre" required />
+        <label for="edit-status">Status:</label>
+        <select id="edit-status" name="status" required>
+          <option value="completed">Completed</option>
+          <option value="in progress">In Progress</option>
+        </select>
+        <button class="add-inventory-btn" type="submit">Save Changes</button>
+      </form>
+    </div>
   </div>
-</div>
-
-<script>
-  function editProduct(id, name, author, genre) {
-    document.getElementById('edit-isbn').value = id;
-    document.getElementById('edit-book-name').value = name;
-    document.getElementById('edit-author').value = author;
-    document.getElementById('edit-genre').value = genre;
-    document.getElementById('edit-modal').style.display = 'block';
-  }
-
-  document.querySelector('.modal .eclose').addEventListener('click', function() {
-    document.getElementById('edit-modal').style.display = 'none';
-  });
-</script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    function editProduct(id, name, author, genre) {
+      document.getElementById('edit-isbn').value = id;
+      document.getElementById('edit-book-name').value = name;
+      document.getElementById('edit-author').value = author;
+      document.getElementById('edit-genre').value = genre;
+      document.getElementById('edit-modal').style.display = 'block';
+    }
+
+    document.querySelector('.modal .eclose').addEventListener('click', function () {
+      document.getElementById('edit-modal').style.display = 'none';
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
       const addInventorybtn = document.getElementById("add-inventory-btn");
       const modal = document.getElementById("add-inventory-modal");
       const closeModalBtn = document.querySelector(".modal .close");

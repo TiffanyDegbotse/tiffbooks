@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['isbn']) && isset($_POS
         // Check if status is "completed" and display confirmation message
         if ($status == "completed") {
             echo "Would you like to offer this book up for lending?";
-            echo "<form action='../admin/lending_view.php' method='post'>";
+            echo "<form action='../admin/lending_view.php?isbn=$isbn' method='post'>";
             echo "<input type='hidden' name='isbn' value='$isbn'>";
             echo "<input type='submit' name='submit' value='Yes'>";
             echo "</form>";
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['isbn']) && isset($_POS
             exit();
         } else {
             // Redirect back to the previous page (storybooks_view.php)
-            header('Location: ../admin/storybooks_view.php');
+            header("Location: ../admin/storybooks_view.php?isbn=$isbn");
             exit();
         }
     } else {
