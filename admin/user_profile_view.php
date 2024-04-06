@@ -6,7 +6,7 @@
   <title>Inventory Management</title>
   <link rel="stylesheet" href="../css/style_management.css" />
   <!-- Font Awesome Cdn Link -->
-  <link rel="stylesheet" href="../css/userprofile.css" />
+  <link rel="stylesheet" href="../css/profile.css" />
 </head>
 <body>
 <div class="page-content page-container" id="page-content">

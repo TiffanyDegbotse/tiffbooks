@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Inventory Management</title>
-  <link rel="stylesheet" href="../css/style_management.css" />
+  <link rel="stylesheet" href="../css/styling_management.css" />
   <!-- Font Awesome Cdn Link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
@@ -52,11 +52,11 @@
       <div class="inventory-list">
         <h1>Storybook Management</h1>
         <button class="add-inventory-btn" id="add-inventory-btn">
-          Add Product
+          Add A Book
         </button>
         <div class="search-container">
           <form>
-            <input type="text" placeholder="Search product or category" name="search" id="search-input" />
+            <input type="text" placeholder="Search book or author" name="search" id="search-input" />
             <button class="add-inventory-btn" type="submit">
               <i class="fa fa-search"></i>
             </button>
@@ -113,7 +113,7 @@
     <div class="modal-content">
       <span class="close eclose">&times;</span>
       <h2>Edit Product</h2>
-      <form action="../actions/edit_book_status.php" method="post">
+      <form action="../actions/edit_book_action.php" method="post">
         <input type="hidden" id="edit-isbn" name="isbn" />
         <label for="edit-book-name">Book Name:</label>
         <input type="text" id="edit-book-name" name="book_name" required />

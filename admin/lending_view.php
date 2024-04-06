@@ -11,7 +11,6 @@
   <style>
     /* Additional Styles for Lending and Borrowing Page */
     body {
-      background-image: url('../images/adminhome.jpg');
       font-family: 'Hind', sans-serif;
       margin: 0;
       padding: 0;

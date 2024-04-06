@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Available books</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="Slide Login Form template Responsive, Login form web template, Flat Pricing tables, Flat Drop downs Sign up Web Templates, Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <meta name="keywords"
+        content="Slide Login Form template Responsive, Login form web template, Flat Pricing tables, Flat Drop downs Sign up Web Templates, Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
     <!-- Custom Theme files -->
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
@@ -73,54 +75,71 @@
             text-decoration: none;
             border-radius: 5px;
         }
+
+        .review-btn {
+            background-color: #333;
+            color: #fff;
+            padding: 4px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Available Books</h1>
+    <div class="container">
+        <h1>Available Books</h1>
 
-    <!-- Display Books -->
-    <?php
-    // Include the connection file
-    include '../settings/connection.php';
+        <!-- Display Books -->
+        <?php
+        // Include the connection file
+        include '../settings/connection.php';
 
-    // SQL query to select books with status 1 from bookstatus table
-    $sql = "SELECT b.*, a.authorname, g.genrename FROM books b
+        // SQL query to select books with status 1 from bookstatus table
+        $sql = "SELECT b.*, a.authorname, g.genrename FROM books b
             INNER JOIN author a ON b.authorid = a.authorid
             INNER JOIN genre g ON b.genreid = g.genreid
             INNER JOIN bookstatus bs ON b.ISBN = bs.ISBN
             WHERE bs.bookstatus = 1";
 
-    // Execute the query
-    $result = $conn->query($sql);
+        // Execute the query
+        $result = $conn->query($sql);
 
-    // Check if there are any results
-    if ($result->num_rows > 0) {
-        // Output data of each row
-        while($row = $result->fetch_assoc()) {
-            echo "<div class='book-container'>
+        // Check if there are any results
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                echo "<div class='book-container'>
                     <div class='book'>
                         <img src='" . $row["image_filepath"] . "' alt='Book Cover'>
                         <div class='book-details'>
-                            <h2 class='book-title'>" . $row["bookname"]. "</h2>
-                            <p>Author: " . $row["authorname"]. "</p>
-                            <p>Genre: " . $row["genrename"]. "</p>
+                            <h2 class='book-title'>" . $row["bookname"] . "</h2>
+                            <p>Author: " . $row["authorname"] . "</p>
+                            <p>Genre: " . $row["genrename"] . "</p>
                             <div class='view-pdf'>
                                 <a href='" . $row["pdf_filepath"] . "' target='_blank'>View PDF</a>
                             </div>
                         </div>
                     </div>
+                    <div class='submit-review-btn'>
+                    <form action='../actions/review_action.php' method='post'>
+                        <input type='hidden' name='isbn' value='" . $row["ISBN"] . "'>
+                        <input type='submit' value='Submit Review Here' class='review-btn'>
+                    </form>
+                </div>
                   </div>";
+            
+            }
+        } else {
+            echo "<p>No lended books found</p>";
         }
-    } else {
-        echo "<p>No books with status 1 found</p>";
-    }
 
-    // Close the connection
-    $conn->close();
-    ?>
-</div>
+        // Close the connection
+        $conn->close();
+        ?>
+    </div>
 
 </body>
+
 </html>
