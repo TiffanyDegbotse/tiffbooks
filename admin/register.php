@@ -14,10 +14,54 @@
     function hideURLbar() {
       window.scrollTo(0, 1);
     }
+
+    function validateForm() {
+      var firstName = document.forms["registrationForm"]["firstName"].value;
+      var lastName = document.forms["registrationForm"]["lastName"].value;
+      var email = document.forms["registrationForm"]["email"].value;
+      var contact = document.forms["registrationForm"]["contact"].value;
+      var password = document.forms["registrationForm"]["password"].value;
+
+      // Check if any field is empty
+      if (firstName == "" || lastName == "" || email == "" || contact == "" || password == "") {
+        alert("All fields must be filled out");
+        return false;
+      }
+
+      // Check if email is valid
+      if (!validateEmail(email)) {
+        alert("Please enter a valid email address");
+        return false;
+      }
+
+      // Check if password is valid
+      if (!validatePassword(password)) {
+        alert("Password must be at least 6 characters long and contain a number");
+        return false;
+      }
+
+      // Check if contact contains only digits
+      if (!/^\d+$/.test(contact)) {
+        alert("Contact must contain only numbers");
+        return false;
+      }
+
+      return true;
+    }
+
+    function validateEmail(email) {
+      var re = /\S+@\S+\.\S+/;
+      return re.test(email);
+    }
+
+    function validatePassword(password) {
+      var re = /^(?=.*\d).{6,}$/;
+      return re.test(password);
+    }
   </script>
 
   <!-- Custom Theme files -->
-  <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="../css/register_style.css" rel="stylesheet" type="text/css" media="all" />
   <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
   <!-- //Custom Theme files -->
 
@@ -37,7 +81,7 @@
           <span class="fa fa-eercast"></span>
         </div>
         <div class="header-left-bottom">
-          <form action="../actions/register_user_action.php" method="post">   
+          <form name="registrationForm" action="../actions/register_user_action.php" onsubmit="return validateForm()" method="post">   
             <div class="icon1">
               <span class="fa fa-user"></span>
               <input type="text" placeholder="First Name" name="firstName" required=""/>

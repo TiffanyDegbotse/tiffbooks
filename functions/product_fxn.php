@@ -1,10 +1,10 @@
 <?php
 include_once '../actions/get_all_books_action.php';
 
-$books = getAllBooks();
+$user_id = $_SESSION['userid']; // Assuming you have a session variable for user ID
 
-// print_r($products);
-// exit();
+$books = getBooksForUser($user_id);
+
 // Display the Products in a table
 if (empty($books)) {
     return;

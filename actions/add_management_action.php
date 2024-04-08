@@ -1,22 +1,12 @@
 <?php
 require_once '../settings/connection.php';
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // User inputs
     $book_name = $_POST['book-name'];
     $author_name = $_POST['author'];
     $genre_name = $_POST['genre'];
-
-    // Check if the book already exists
-    $sql_check_book = "SELECT * FROM books WHERE bookname = '$book_name'";
-    $result_check_book = mysqli_query($conn, $sql_check_book);
-    if (mysqli_num_rows($result_check_book) > 0) {
-        echo "<script>
-        alert('You have already logged in this book.');
-        window.location.href='../admin/storybooks_view.php'
-        </script>";
-        exit();
-    }
 
     // File upload directory
     $targetDir = "../uploads/";
@@ -78,10 +68,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql_bookstatus = "INSERT INTO bookstatus (ISBN, bookstatus) VALUES ('$isbn', '0')";
         $result_bookstatus = mysqli_query($conn, $sql_bookstatus);
 
+        // Insert ISBN into book_reviews table
+        $sql_book_reviews = "INSERT INTO book_reviews (ISBN) VALUES ('$isbn')";
+        $result_book_reviews = mysqli_query($conn, $sql_book_reviews);
+
         // Check if all inserts were successful
-        if ($result_author && $result_genre && $result_readingstatus && $result_bookstatus ) {
-            header('Location: ../admin/storybooks_view.php'); // Redirect to storybooks_view.php
-            exit();
+        if ($result_author && $result_genre && $result_readingstatus && $result_bookstatus &&  $result_book_reviews ) {
+            // Insert record into userbook table
+            $user_id = $_SESSION['userid']; // Assuming you have a session variable for user ID
+            $sql_userbook = "INSERT INTO userbook (pid, ISBN) VALUES ('$user_id', '$isbn')";
+            $result_userbook = mysqli_query($conn, $sql_userbook);
+
+            if ($result_userbook) {
+                header('Location: ../admin/storybooks_view.php'); // Redirect to storybooks_view.php
+                exit();
+            } else {
+                echo "Error adding book to user's profile: " . mysqli_error($conn);
+            }
         } else {
             echo "Error adding book: " . mysqli_error($conn);
         }

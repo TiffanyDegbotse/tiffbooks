@@ -18,7 +18,8 @@ if (isset($_POST['submit'])) {
         if (password_verify($password, $row['password'])) {
             $_SESSION['userid'] = $row['pid'];
             $_SESSION['email'] = $row['email'];
-            header('Location: ../admin/storybooks_view.php?msg=sucess');
+            $_SESSION['rid']=$row['rid'];
+            header('Location: ../admin/user_profile_view.php?msg=sucess');
             exit();
         } else {
             echo "Incorrect username or password. Please try again.";

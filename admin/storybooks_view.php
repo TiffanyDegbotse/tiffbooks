@@ -29,17 +29,36 @@
           </a>
         </li>
         <li>
-          <a href="#">
-            <i class="fas fa-chart-bar"></i>
-            <span class="nav-item">Lending/Borrowing</span>
+          <a href="user_profile_view.php">
+            <i class="fas fa-user"></i>
+            <span class="nav-item">User profile</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="available_books.php">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-item">Available books</span>
+          </a>
+        </li>
+        <li>
+          <a href="storybooks_view.php">
             <i class="fas fa-database"></i>
             <span class="nav-item">Storybook Management</span>
           </a>
         </li>
+        <?php
+        // Check if the user has an rid of 1
+        if ($_SESSION['rid'] == 1) {
+          ?>
+          <li>
+            <a href="approve_review.php">
+              <i class="fas fa-chart-line"></i>
+              <span class="nav-item">Approve reviews</span>
+            </a>
+          </li>
+          <?php
+        }
+        ?>
         <li>
           <a href="../logout.php" class="logout">
             <i class="fas fa-sign-out-alt"></i>
@@ -75,7 +94,7 @@
           <tbody id="book-list">
             <?php
             if (isset($_GET['search'])) {
-              include '../actions/search_action.php';
+              include '../functions/display_search_fxn.php';
               display_search();
             } else {
               include '../functions/product_fxn.php';

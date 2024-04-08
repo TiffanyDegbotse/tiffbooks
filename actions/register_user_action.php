@@ -2,13 +2,14 @@
   include '../settings/connection.php';
 
   if(isset($_POST['register']))
-  {     
-    $invalidErr="";
+  {
+    //Retrieve form data     
     $firstName = $_POST["firstName"]; 
-    $lastName = $_POST["lastName"]; 
+    $lastName = $_POST["lastName"];                                              
     $email = $_POST["email"]; 
     $contact = $_POST["contact"];
-    $password = $_POST["password"];       
+    $password = $_POST["password"]; 
+    $role = $_POST["role"]; // Fetch selected role      
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
  // Check if email is already in use

@@ -14,6 +14,7 @@
       font-family: 'Hind', sans-serif;
       margin: 0;
       padding: 0;
+      background: linear-gradient(to bottom, orange, purple); /* Set background gradient */
     }
 
     header {
@@ -100,7 +101,7 @@
 
   <!-- Header Section -->
   <header>
-    <h1>Lending and Borrowing</h1>
+    <h1>Lending Books</h1>
   </header>
 
   <!-- Main Content Section -->

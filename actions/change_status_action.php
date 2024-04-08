@@ -13,7 +13,7 @@ if(isset($_GET['isbn'])) {
 
     if ($updateResult) {
         // Redirect to borrowing_view page
-        header("Location:../admin/borrowing_view.php");
+        header("Location:../admin/available_books.php");
         exit(); // Ensure no further code execution after redirection
     } else {
         echo "Error updating book status: " . mysqli_error($conn);

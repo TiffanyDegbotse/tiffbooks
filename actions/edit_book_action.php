@@ -28,14 +28,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['isbn']) && isset($_POS
     if ($result && $result_status) {
         // Check if status is "completed" and display confirmation message
         if ($status == "completed") {
-            echo "Would you like to offer this book up for lending?";
+            echo "<div style='margin: 0 auto; text-align: center; background: linear-gradient(to bottom, orange, purple); height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;'>";
+            echo "<h2>Would you like to offer this book up for lending?</h2>";
             echo "<form action='../admin/lending_view.php?isbn=$isbn' method='post'>";
             echo "<input type='hidden' name='isbn' value='$isbn'>";
-            echo "<input type='submit' name='submit' value='Yes'>";
+            echo "<button type='submit' class='btn btn-yes' name='submit'>Yes</button>";
             echo "</form>";
             echo "<form action='../admin/storybooks_view.php' method='post'>";
-            echo "<input type='submit' name='submit' value='No'>";
+            echo "<button type='submit' class='btn btn-no' name='submit'>No</button>";
             echo "</form>";
+            echo "</div>";
             exit();
         } else {
             // Redirect back to the previous page (storybooks_view.php)
@@ -47,9 +49,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['isbn']) && isset($_POS
     }
 } else {
     // If ISBN, name, author, genre, or status is not provided, redirect back to the previous page with an error message
+    echo "yie";
     header('Location: ../admin/storybooks_view.php?error=missing_parameters');
     exit();
 }
 
 // Close the database connection
 mysqli_close($conn);
+?>
