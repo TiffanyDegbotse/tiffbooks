@@ -22,8 +22,10 @@ if (isset($_POST['submit'])) {
             header('Location: ../admin/user_profile_view.php?msg=sucess');
             exit();
         } else {
-            echo "Incorrect username or password. Please try again.";
-            header('Location:../index.php?msg=Incorrect username or password. Please try again.');
+            echo "<script>
+            alert('Incorrect username or password. Please try again.');
+            window.location.href='../index.php?error'
+            </script>";
             exit;
         }
     } else {
